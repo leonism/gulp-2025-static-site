@@ -1,0 +1,22 @@
+{
+  "name": "gulp-tutorial",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "gulp"
+  },
+  "dependencies": {
+    "browser-sync": "^3.0.0",
+    "del": "^7.0.0",
+    "gulp": "^5.0.0",
+    "gulp-autoprefixer": "^9.0.0",
+    "gulp-clean-css": "^5.0.0",
+    "gulp-htmlmin": "^6.0.0",
+    "gulp-imagemin": "^9.0.0",
+    "gulp-newer": "^2.0.0",
+    "gulp-sass": "^6.0.0",
+    "gulp-sourcemaps": "^4.0.0",
+    "gulp-terser": "^2.0.0",
+    "sass": "^1.72.0"
+  }
+}

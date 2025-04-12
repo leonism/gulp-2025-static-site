@@ -1,0 +1,12 @@
+// main.scss (entry point)
+@use "base/reset";
+@use "layout/grid";
+@use "components/header";
+@use "components/buttons";
+@use "components/hero";
+@use "components/form";
+@use "utilities/mixins";
+
+body {
+  font-family: sans-serif;
+}

@@ -1,0 +1,1 @@
+export function toggleMenu(){const e=document.querySelector(".nav-toggle"),t=document.querySelector(".nav-list");e&&t&&e.addEventListener("click",(()=>{t.classList.toggle("open")}))}
