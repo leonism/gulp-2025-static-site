@@ -8,18 +8,17 @@ import autoprefixer from "gulp-autoprefixer";
 import cleanCSS from "gulp-clean-css";
 import terser from "gulp-terser";
 import htmlmin from "gulp-htmlmin";
-import imagemin from "gulp-imagemin";
-import imageminMozjpeg from "imagemin-mozjpeg";
-import imageminOptipng from "imagemin-optipng";
-import imageminSvgo from "imagemin-svgo";
 import newer from "gulp-newer";
 import browserSyncLib from "browser-sync";
 import { deleteAsync } from "del";
+import { promises as fs } from "fs";
+import path from "path";
+import imagemin from "imagemin";
+import imageminMozjpeg from "imagemin-mozjpeg";
+import imageminOptipng from "imagemin-optipng";
+import imageminSvgo from "imagemin-svgo";
 
-// Initialize Sass compiler
 const sass = gulpSass(dartSass);
-
-// Initialize BrowserSync
 const browserSync = browserSyncLib.create();
 
 // Paths
@@ -37,17 +36,17 @@ const paths = {
     dest: "dist/js/",
   },
   images: {
-    src: "src/images/**/*",
+    src: "src/images/*.{jpg,jpeg,png,svg}",
     dest: "dist/images/",
   },
 };
 
-// 🧹 Clean dist folder
+// Clean dist folder
 export function clean() {
   return deleteAsync(["dist/**", "!dist"]);
 }
 
-// 💅 Compile and minify SCSS with sourcemaps
+// Compile and minify SCSS
 export function styles() {
   return src(paths.styles.src)
     .pipe(sourcemaps.init())
@@ -59,7 +58,7 @@ export function styles() {
     .pipe(browserSync.stream());
 }
 
-// 📝 Minify HTML
+// Minify HTML
 export function html() {
   return src(paths.html.src)
     .pipe(htmlmin({ collapseWhitespace: true }))
@@ -67,7 +66,7 @@ export function html() {
     .pipe(browserSync.stream());
 }
 
-// 📜 Minify JavaScript
+// Minify JS
 export function scripts() {
   return src(paths.scripts.src)
     .pipe(terser())
@@ -75,24 +74,23 @@ export function scripts() {
     .pipe(browserSync.stream());
 }
 
-// 🖼️ Optimize images — final, correct version
-export function images() {
-  return src(paths.images.src)
-    .pipe(newer(paths.images.dest))
-    .pipe(
-      imagemin([
-        imageminMozjpeg({ quality: 75, progressive: true }),
-        imageminOptipng({ optimizationLevel: 5 }),
-        imageminSvgo({
-          plugins: [{ name: "removeViewBox", active: false }],
-        }),
-      ])
-    )
-    .pipe(dest(paths.images.dest))
-    .pipe(browserSync.stream());
+// Optimize images with native imagemin
+export async function images() {
+  const files = await imagemin(["src/images/*.{jpg,jpeg,png,svg}"], {
+    destination: "dist/images",
+    plugins: [
+      imageminMozjpeg({ quality: 75, progressive: true }),
+      imageminOptipng({ optimizationLevel: 5 }),
+      imageminSvgo({
+        plugins: [{ name: "removeViewBox", active: false }],
+      }),
+    ],
+  });
+
+  console.log("Images optimized:", files.length);
 }
 
-// 🔄 Live-reload Dev Server
+// Dev Server
 export function serve() {
   browserSync.init({
     server: {
@@ -103,9 +101,11 @@ export function serve() {
   watch(paths.html.src, html);
   watch(paths.styles.src, styles);
   watch(paths.scripts.src, scripts);
-  watch(paths.images.src, images);
+  watch("src/images/*.{jpg,jpeg,png,svg}", images);
 }
 
-// 🏗️ Master Tasks
+// Build task
 export const build = series(clean, parallel(html, styles, scripts, images));
+
+// Default task
 export default series(build, serve);
