@@ -1,52 +1,28 @@
-/**
- * Gulp Configuration File
- *
- * Modern static site build system with:
- * - Sass compilation with sourcemaps
- * - JavaScript minification
- * - HTML minification
- * - Image optimization (JPEG, PNG, SVG)
- * - Live reload development server
- *
- * All tasks process files from src/ to dist/ directory
- */
+// gulpfile.mjs
 
-// Core modules
-import gulp from "gulp";
-import { deleteAsync } from "del";
-
-// CSS processing
-import * as dartSass from "sass";
+import { src, dest, watch, series, parallel } from "gulp";
 import gulpSass from "gulp-sass";
+import * as dartSass from "sass";
 import sourcemaps from "gulp-sourcemaps";
 import autoprefixer from "gulp-autoprefixer";
 import cleanCSS from "gulp-clean-css";
-
-// JS processing
 import terser from "gulp-terser";
-
-// HTML processing
 import htmlmin from "gulp-htmlmin";
-
-// Image optimization
 import imagemin from "gulp-imagemin";
-import mozjpeg from "imagemin-mozjpeg";
-import optipng from "imagemin-optipng";
-import svgo from "imagemin-svgo";
-
-// Utilities
+import imageminMozjpeg from "imagemin-mozjpeg";
+import imageminOptipng from "imagemin-optipng";
+import imageminSvgo from "imagemin-svgo";
 import newer from "gulp-newer";
 import browserSyncLib from "browser-sync";
+import { deleteAsync } from "del";
 
-// Initialize plugins
+// Initialize Sass compiler
 const sass = gulpSass(dartSass);
-const browserSync = browserSyncLib.create();
-const { src, dest, watch, series, parallel } = gulp;
 
-/**
- * File path configurations
- * Defines source and destination paths for all asset types
- */
+// Initialize BrowserSync
+const browserSync = browserSyncLib.create();
+
+// Paths
 const paths = {
   html: {
     src: "src/*.html",
@@ -61,92 +37,67 @@ const paths = {
     dest: "dist/js/",
   },
   images: {
-    src: "src/images/**/*.{jpg,png,svg}",
+    src: "src/images/**/*",
     dest: "dist/images/",
   },
 };
 
-/**
- * Optimizes images and copies to dist folder
- * - Processes only changed files
- * - Applies format-specific optimizations:
- *   - JPEG: 75% quality with progressive loading
- *   - PNG: Level 5 optimization
- *   - SVG: SVGO cleanup
- */
-function images() {
-  return src(paths.images.src)
-    .pipe(newer(paths.images.dest))
-    .pipe(dest(paths.images.dest))
-    .pipe(
-      imagemin([
-        mozjpeg({ quality: 75 }),
-        optipng({ optimizationLevel: 5 }),
-        svgo(),
-      ])
-    )
-    .pipe(dest(paths.images.dest));
-}
-
-/**
- * Cleans dist directory while preserving the folder structure
- */
-function clean() {
+// 🧹 Clean dist folder
+export function clean() {
   return deleteAsync(["dist/**", "!dist"]);
 }
 
-/**
- * Processes SCSS stylesheets:
- * - Compiles to CSS
- * - Adds vendor prefixes
- * - Minifies output
- * - Generates sourcemaps
- * - Live-injects changes
- */
-function styles() {
+// 💅 Compile and minify SCSS with sourcemaps
+export function styles() {
   return src(paths.styles.src)
     .pipe(sourcemaps.init())
     .pipe(sass().on("error", sass.logError))
-    .pipe(autoprefixer())
-    .pipe(cleanCSS())
+    .pipe(autoprefixer({ cascade: false }))
+    .pipe(cleanCSS({ level: 2 }))
     .pipe(sourcemaps.write("."))
     .pipe(dest(paths.styles.dest))
     .pipe(browserSync.stream());
 }
 
-/**
- * Processes JavaScript files:
- * - Minifies using Terser
- * - Generates production-ready files
- */
-function scripts() {
-  return src(paths.scripts.src)
-    .pipe(terser())
-    .pipe(dest(paths.scripts.dest))
-    .pipe(browserSync.stream());
-}
-
-/**
- * Processes HTML files:
- * - Minifies by removing whitespace
- * - Optimizes for production
- */
-function html() {
+// 📝 Minify HTML
+export function html() {
   return src(paths.html.src)
     .pipe(htmlmin({ collapseWhitespace: true }))
     .pipe(dest(paths.html.dest))
     .pipe(browserSync.stream());
 }
 
-/**
- * Development server with live reload
- * - Serves files from dist directory
- * - Watches for changes in all assets
- * - Automatically reloads browser
- */
-function serve() {
+// 📜 Minify JavaScript
+export function scripts() {
+  return src(paths.scripts.src)
+    .pipe(terser())
+    .pipe(dest(paths.scripts.dest))
+    .pipe(browserSync.stream());
+}
+
+// 🖼️ Optimize images — final, correct version
+export function images() {
+  return src(paths.images.src)
+    .pipe(newer(paths.images.dest))
+    .pipe(
+      imagemin([
+        imageminMozjpeg({ quality: 75, progressive: true }),
+        imageminOptipng({ optimizationLevel: 5 }),
+        imageminSvgo({
+          plugins: [{ name: "removeViewBox", active: false }],
+        }),
+      ])
+    )
+    .pipe(dest(paths.images.dest))
+    .pipe(browserSync.stream());
+}
+
+// 🔄 Live-reload Dev Server
+export function serve() {
   browserSync.init({
-    server: { baseDir: "dist/" },
+    server: {
+      baseDir: "dist/",
+    },
   });
 
   watch(paths.html.src, html);
@@ -155,9 +106,6 @@ function serve() {
   watch(paths.images.src, images);
 }
 
-// Production build task
-const build = series(clean, parallel(html, styles, scripts, images));
-
-// Exported tasks
-export { clean, build };
-export default series(clean, parallel(html, styles, scripts, images), serve);
+// 🏗️ Master Tasks
+export const build = series(clean, parallel(html, styles, scripts, images));
+export default series(build, serve);

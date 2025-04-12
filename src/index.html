@@ -5,37 +5,22 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="theme-color"
-      content="#ffffff" />
     <title>Gulp 2025 Static Site</title>
-    <meta
-      name="description"
-      content="Modern static site built with Gulp in 2025" />
     <link
       rel="stylesheet"
       href="css/main.css" />
     <link
       rel="icon"
-      href="images/icons/check.svg"
-      type="image/svg+xml" />
+      href="images/icons/check.svg" />
   </head>
   <body>
-    <header
-      class="site-header"
-      role="banner">
+    <header class="site-header">
       <div class="container">
         <img
           src="images/logo.png"
-          alt="Gulp Static Site Logo"
-          class="logo"
-          width="150"
-          height="48"
-          loading="lazy"
-          decoding="async" />
-        <nav
-          class="nav"
-          aria-label="Main navigation">
+          alt="Site Logo"
+          class="logo" />
+        <nav class="nav">
           <ul class="nav-list">
             <li><a href="#features">Features</a></li>
             <li><a href="#signup">Sign Up</a></li>
@@ -61,13 +46,8 @@
           >
           <img
             src="images/hero.jpg"
-            srcset="images/hero.jpg 1x, images/hero@2x.jpg 2x"
-            alt="Illustration showing fast website performance"
-            class="hero-image"
-            width="800"
-            height="450"
-            loading="eager"
-            decoding="async" />
+            alt="Hero Banner"
+            class="hero-image" />
         </div>
       </section>
 
@@ -84,10 +64,15 @@
           </ul>
         </div>
       </section>
+
       <section
         id="signup"
         class="signup">
         <div class="container">
+          <img
+            src="images/features.png"
+            alt="Features"
+            class="hero-image" />
           <h2>Sign up for updates</h2>
           <form id="signupForm">
             <input
@@ -100,13 +85,12 @@
       </section>
     </main>
 
-    <footer
-      class="site-footer"
-      role="contentinfo">
+    <footer class="site-footer">
       <div class="container">
         <p>&copy; 2025 Gulp Static Project. All rights reserved.</p>
       </div>
     </footer>
+
     <script
       src="js/app.js"
       type="module"></script>
