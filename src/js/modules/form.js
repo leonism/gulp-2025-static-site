@@ -1,3 +1,8 @@
+/**
+ * Handles the signup form submission.
+ * Prevents default form submission, validates email input,
+ * shows a thank you message, and resets the form.
+ */
 export function handleSignup() {
   const form = document.querySelector("#signupForm");
   if (!form) return;
