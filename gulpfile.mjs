@@ -36,7 +36,7 @@ const paths = {
     dest: "dist/js/",
   },
   images: {
-    src: "src/images/*.{jpg,jpeg,png,svg}",
+    src: "src/images/**/*.{jpg,jpeg,png,svg}",
     dest: "dist/images/",
   },
 };
@@ -76,10 +76,10 @@ export function scripts() {
 
 // Optimize images with native imagemin
 export async function images() {
-  const files = await imagemin(["src/images/*.{jpg,jpeg,png,svg}"], {
+  const files = await imagemin(["src/images/**/*.{jpg,jpeg,png,svg}"], {
     destination: "dist/images",
     plugins: [
-      imageminMozjpeg({ quality: 75, progressive: true }),
+      imageminMozjpeg({ quality: 50, progressive: true }),
       imageminOptipng({ optimizationLevel: 5 }),
       imageminSvgo({
         plugins: [{ name: "removeViewBox", active: false }],

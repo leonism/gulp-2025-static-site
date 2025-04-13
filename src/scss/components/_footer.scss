@@ -1,44 +1,64 @@
 .site-footer {
-  background-color: #f8f9fa;
+  background-color: #2d3748;
+  color: white;
   padding: 3rem 0;
-  border-top: 1px solid #eaeaea;
   text-align: center;
 
   .footer-content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     gap: 1.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .footer-nav ul {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 0;
+    margin: 0;
+    list-style: none;
   }
 
   .footer-logo {
     max-width: 120px;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
   }
 
   .footer-links {
+    width: 100%;
+
     ul {
       display: flex;
-      gap: 1.5rem;
+      gap: 2rem; /* Adjust spacing between links */
       list-style: none;
-      justify-content: center;
+      justify-content: center; /* Center the links */
+      margin: 0;
+      padding: 0;
+      flex-wrap: wrap; /* Ensure responsiveness */
 
       a {
         text-decoration: none;
-        color: #555;
+        color: #e2e8f0;
         transition: color 0.2s ease;
+        font-weight: 500;
 
         &:hover {
-          color: #007acc;
+          color: #ffffff;
+          text-decoration: underline;
         }
       }
     }
   }
 
   .footer-copyright {
-    color: #777;
+    color: #a0aec0;
     font-size: 0.9rem;
     margin-top: 1rem;
+    width: 100%;
+    text-align: center; /* Ensure copyright text is centered */
   }
 }

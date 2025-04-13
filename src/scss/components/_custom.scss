@@ -8,7 +8,7 @@
       padding-bottom: 5px;
 
       &:after {
-        content: '';
+        content: "";
         position: absolute;
         width: 0;
         height: 2px;
@@ -28,6 +28,7 @@
 .hero {
   padding: 4rem 0;
   background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+  text-align: center;
 
   .container {
     display: flex;
@@ -81,9 +82,11 @@
 .features {
   padding: 4rem 0;
   background-color: #f8f9fa;
+  text-align: center;
 
   .container {
-    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto;
   }
 
   h2 {
@@ -92,35 +95,44 @@
     color: #2d3748;
   }
 
-  .feature-list {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  .feature-cards {
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
+    margin-top: 2rem;
+  }
 
-    li {
-      padding: 1.5rem;
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-      transition: all 0.3s ease;
+  .feature-card {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    max-width: 800px;
+    margin: 0 auto;
 
-      &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-      }
+    h3 {
+      margin-bottom: 1rem;
+      color: #2d3748;
+    }
+
+    p {
+      color: #4a5568;
     }
   }
 }
 
+/* Center align signup form */
 .signup {
   padding: 4rem 0;
+  text-align: center;
 
   .container {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
   }
 
   h2 {
@@ -172,4 +184,61 @@
   color: white;
   padding: 2rem 0;
   text-align: center;
+}
+
+.contact-cta {
+  padding: 4rem 0;
+  background-color: #f7fafc;
+  text-align: center;
+
+  .container {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #2d3748;
+    text-align: center;
+  }
+
+  .contact-form {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      font-size: 1rem;
+
+      &:focus {
+        outline: none;
+        border-color: #3182ce;
+        box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+      }
+    }
+
+    button {
+      margin-top: 1rem;
+      width: 100%;
+    }
+  }
 }
