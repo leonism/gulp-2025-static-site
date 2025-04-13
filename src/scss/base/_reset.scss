@@ -9,3 +9,7 @@
 html {
   scroll-behavior: smooth;
 }
+
+body.nav-open {
+  overflow: hidden; // Prevent scrolling when nav is open
+}
