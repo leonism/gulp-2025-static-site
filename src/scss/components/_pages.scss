@@ -5,24 +5,32 @@
 }
 
 .about-content {
-  position: relative; /* Enable positioning */
   padding: 4rem 0;
   background-color: #f8f9fa;
 
+  // Remove absolute positioning for better stacking
   .leadership {
-    position: absolute; /* Position on top */
-    top: -50px; /* Adjust as needed */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1; /* Ensure it sits on top */
+    position: relative; // Changed from absolute
+    margin-bottom: 2rem; // Add spacing between cards
+    width: 100%;
   }
 
   .about-section {
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); // Enhanced shadow
     background-color: #ffffff;
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
   }
 
   .team-grid {
@@ -36,7 +44,20 @@
     background-color: #f8fafc;
     padding: 1.5rem;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); // Enhanced shadow
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  // Add responsive behavior
+  @media (max-width: 768px) {
+    .team-grid {
+      grid-template-columns: 1fr; // Single column on mobile
+    }
   }
 }
 
@@ -63,7 +84,7 @@
     background-color: #ffffff;
     padding: 2rem;
     border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); // Enhanced shadow
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     margin: 0 auto; /* Center-align the card */
     max-width: 400px; /* Ensure consistent width */
@@ -71,7 +92,7 @@
 
     &:hover {
       transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
     }
 
     h3 {

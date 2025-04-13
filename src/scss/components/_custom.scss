@@ -245,16 +245,17 @@
 
 .feature-card {
   background-color: #f0f4c3; /* Default pastel color */
-  transition: background-color 0.3s ease, transform 0.3s ease,
-    box-shadow 0.3s ease;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); // Enhanced shadow
   width: 100%;
   max-width: 300px; /* Consistent width across devices */
   margin: 0 auto;
+  padding: 2rem;
+  border-radius: 8px;
 
   &:hover {
     background-color: #e6ee9c; /* Subtle pastel hover color */
     transform: scale(1.05); /* Zoom in effect */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
   }
 }

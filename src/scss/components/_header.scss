@@ -59,3 +59,46 @@
     }
   }
 }
+
+// Service grid centered alignment
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  justify-items: center;
+  margin: 0 auto;
+  max-width: 1200px;
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+  max-width: 350px;
+
+  h3 {
+    margin-bottom: 1rem;
+  }
+
+  p {
+    margin-bottom: 1.5rem;
+  }
+
+  .service-features {
+    align-self: flex-start;
+    text-align: left;
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn {
+    margin-top: auto;
+  }
+}
