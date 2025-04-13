@@ -259,3 +259,26 @@
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
   }
 }
+
+
+ul, ol {
+  list-style-position: inside; // Align list markers with text
+  margin: 1rem 0; // Consistent margin for lists
+  padding-left: 1.5rem; // Indentation for list items
+}
+
+li {
+  margin-bottom: 0.5rem; // Space between list items
+  line-height: 1.5; // Improve readability
+  color: #333; // Consistent text color
+  font-size: 1rem; // Consistent font size
+}
+
+// Optional: Custom list markers
+ol {
+  list-style-type: decimal; // Use decimal numbers for ordered lists
+}
+
+ul {
+  list-style-type: disc; // Use disc markers for unordered lists
+}
