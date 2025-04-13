@@ -17,7 +17,11 @@
     "gulp-sass": "^6.0.1",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-terser": "^2.1.0",
+    "imagemin-pngquant": "^10.0.0",
     "sass": "^1.86.3"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.3"
   },
   "description": "**Date:** April 2025 **Author:** [Your Name]",
   "main": "index.js",
@@ -190,7 +194,6 @@
     "fs-extra": "^3.0.1",
     "fs-mkdirp-stream": "^2.0.1",
     "fs.realpath": "^1.0.0",
-    "fsevents": "^2.3.3",
     "function-bind": "^1.1.2",
     "function-timeout": "^1.0.2",
     "get-caller-file": "^2.0.5",

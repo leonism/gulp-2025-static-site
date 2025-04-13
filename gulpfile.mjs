@@ -17,6 +17,8 @@ import imagemin from "imagemin";
 import imageminMozjpeg from "imagemin-mozjpeg";
 import imageminOptipng from "imagemin-optipng";
 import imageminSvgo from "imagemin-svgo";
+// Add pngquant for better PNG compression
+import imageminPngquant from "imagemin-pngquant";
 
 const sass = gulpSass(dartSass);
 const browserSync = browserSyncLib.create();
@@ -80,14 +82,31 @@ export async function images() {
     destination: "dist/images",
     plugins: [
       imageminMozjpeg({ quality: 50, progressive: true }),
-      imageminOptipng({ optimizationLevel: 5 }),
+      // Use both optipng and pngquant for better results
+      imageminOptipng({
+        optimizationLevel: 7,
+        bitDepthReduction: true,
+        colorTypeReduction: true,
+        paletteReduction: true,
+      }),
+      // Add pngquant which often gives better compression
+      imageminPngquant({
+        quality: [0.6, 0.8], // Quality range
+        speed: 1, // Slowest but best compression
+        strip: true, // Remove metadata
+        dithering: 0.5, // Balanced dithering for better quality
+      }),
       imageminSvgo({
         plugins: [{ name: "removeViewBox", active: false }],
       }),
     ],
   });
 
-  console.log("Images optimized:", files.length);
+  // Log more detailed information
+  console.log(`Images optimized: ${files.length}`);
+
+  // Return the files to ensure the task completes properly
+  return files;
 }
 
 // Dev Server
@@ -101,11 +120,54 @@ export function serve() {
   watch(paths.html.src, html);
   watch(paths.styles.src, styles);
   watch(paths.scripts.src, scripts);
-  watch("src/images/*.{jpg,jpeg,png,svg}", images);
+  // Fix the watch path to match the src path
+  watch(paths.images.src, images);
 }
 
 // Build task
-export const build = series(clean, parallel(html, styles, scripts, images));
+// Add this function to your gulpfile
+async function logImageSizes() {
+  const { promises: fs } = await import("fs");
+  const path = await import("path");
+
+  const srcDir = "src/images";
+  const distDir = "dist/images";
+
+  const files = await fs.readdir(srcDir);
+  const pngFiles = files.filter((file) => file.endsWith(".png"));
+
+  console.log("PNG Optimization Report:");
+  console.log("------------------------");
+
+  for (const file of pngFiles) {
+    const srcPath = path.join(srcDir, file);
+    const distPath = path.join(distDir, file);
+
+    try {
+      const srcStat = await fs.stat(srcPath);
+      const distStat = await fs.stat(distPath);
+
+      const srcSize = srcStat.size;
+      const distSize = distStat.size;
+      const savings = (((srcSize - distSize) / srcSize) * 100).toFixed(2);
+
+      console.log(
+        `${file}: ${(srcSize / 1024).toFixed(2)}KB → ${(
+          distSize / 1024
+        ).toFixed(2)}KB (${savings}% saved)`
+      );
+    } catch (err) {
+      console.log(`Error processing ${file}: ${err.message}`);
+    }
+  }
+}
+
+// Add this to your build task
+export const build = series(
+  clean,
+  parallel(html, styles, scripts, images),
+  logImageSizes
+);
 
 // Default task
 export default series(build, serve);
