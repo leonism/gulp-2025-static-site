@@ -1,0 +1,4 @@
+name = "gulp-2025"
+compatibility_date = "2025-04-13"
+
+pages_build_output_dir = "./dist"
