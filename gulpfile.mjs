@@ -82,22 +82,31 @@ export async function images() {
     destination: "dist/images",
     plugins: [
       imageminMozjpeg({ quality: 50, progressive: true }),
-      // Use both optipng and pngquant for better results
+      // PNG optimization remains the same
       imageminOptipng({
         optimizationLevel: 7,
         bitDepthReduction: true,
         colorTypeReduction: true,
         paletteReduction: true,
       }),
-      // Add pngquant which often gives better compression
       imageminPngquant({
-        quality: [0.6, 0.8], // Quality range
-        speed: 1, // Slowest but best compression
-        strip: true, // Remove metadata
-        dithering: 0.5, // Balanced dithering for better quality
+        quality: [0.6, 0.8],
+        speed: 1,
+        strip: true,
+        dithering: 0.5,
       }),
+      // Enhanced SVG optimization
       imageminSvgo({
-        plugins: [{ name: "removeViewBox", active: false }],
+        plugins: [
+          {
+            name: "preset-default",
+            params: {
+              overrides: {
+                removeViewBox: false,
+              },
+            },
+          },
+        ],
       }),
     ],
   });
@@ -105,7 +114,6 @@ export async function images() {
   // Log more detailed information
   console.log(`Images optimized: ${files.length}`);
 
-  // Return the files to ensure the task completes properly
   return files;
 }
 
@@ -135,11 +143,37 @@ async function logImageSizes() {
 
   const files = await fs.readdir(srcDir);
   const pngFiles = files.filter((file) => file.endsWith(".png"));
+  const svgFiles = files.filter((file) => file.endsWith(".svg"));
 
   console.log("PNG Optimization Report:");
   console.log("------------------------");
 
   for (const file of pngFiles) {
+    const srcPath = path.join(srcDir, file);
+    const distPath = path.join(distDir, file);
+
+    try {
+      const srcStat = await fs.stat(srcPath);
+      const distStat = await fs.stat(distPath);
+
+      const srcSize = srcStat.size;
+      const distSize = distStat.size;
+      const savings = (((srcSize - distSize) / srcSize) * 100).toFixed(2);
+
+      console.log(
+        `${file}: ${(srcSize / 1024).toFixed(2)}KB → ${(
+          distSize / 1024
+        ).toFixed(2)}KB (${savings}% saved)`
+      );
+    } catch (err) {
+      console.log(`Error processing ${file}: ${err.message}`);
+    }
+  }
+
+  console.log("\nSVG Optimization Report:");
+  console.log("------------------------");
+
+  for (const file of svgFiles) {
     const srcPath = path.join(srcDir, file);
     const distPath = path.join(distDir, file);
 

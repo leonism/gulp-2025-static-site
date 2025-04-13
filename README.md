@@ -94,11 +94,11 @@ Welcome to the future of static site development! This project demonstrates how 
 
 ```bash
 # Clone the quantum repository
-git clone https://github.com/yourrepo/gulp-2025.git
+git clone https://github.com/leonism/gulp-2025.git
 
-# Install temporal dependencies
-npm install --temporal
+# Start the dev server
+npx gulp
 
-# Start the holographic dev server
-npm run quantum
+# Start the build process
+npx gulp build
 ```
