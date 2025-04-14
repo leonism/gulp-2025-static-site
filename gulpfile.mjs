@@ -18,8 +18,6 @@ import imageminMozjpeg from "imagemin-mozjpeg";
 import imageminOptipng from "imagemin-optipng";
 import imageminSvgo from "imagemin-svgo";
 import imageminPngquant from "imagemin-pngquant"; // Add pngquant for better PNG compression
-import rev from "gulp-rev";
-import concat from "gulp-concat";
 
 const sass = gulpSass(dartSass);
 const browserSync = browserSyncLib.create();
@@ -49,7 +47,7 @@ export function clean() {
   return deleteAsync(["dist/**", "!dist"]);
 }
 
-// Compile and minify SCSS
+// Compile and minify SCSS files
 export function styles() {
   return src(paths.styles.src)
     .pipe(sourcemaps.init())
@@ -61,7 +59,7 @@ export function styles() {
     .pipe(browserSync.stream());
 }
 
-// Minify HTML
+// Minify HTML files
 export function html() {
   return src(paths.html.src)
     .pipe(htmlmin({ collapseWhitespace: true }))
@@ -69,22 +67,11 @@ export function html() {
     .pipe(browserSync.stream());
 }
 
-// Minify JS
+// Minify JS files
 export function scripts() {
   return src(paths.scripts.src)
-    .pipe(sourcemaps.init()) // Add sourcemaps for better debugging
-    .pipe(concat("scripts.js")) // Concatenate all JS files
-    .pipe(terser()) // Minify the JS
-    .pipe(rev()) // Add content hash to filenames
-    .pipe(sourcemaps.write(".")) // Write sourcemaps
-    .pipe(dest(paths.scripts.dest)) // Output to destination
-    .pipe(
-      rev.manifest({
-        base: "dist",
-        merge: true, // Merge with existing manifest if it exists
-      })
-    )
-    .pipe(dest("dist")) // Output the manifest file
+    .pipe(terser())
+    .pipe(dest(paths.scripts.dest))
     .pipe(browserSync.stream());
 }
 
