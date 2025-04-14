@@ -17,8 +17,9 @@ import imagemin from "imagemin";
 import imageminMozjpeg from "imagemin-mozjpeg";
 import imageminOptipng from "imagemin-optipng";
 import imageminSvgo from "imagemin-svgo";
-// Add pngquant for better PNG compression
-import imageminPngquant from "imagemin-pngquant";
+import imageminPngquant from "imagemin-pngquant"; // Add pngquant for better PNG compression
+import rev from "gulp-rev";
+import concat from "gulp-concat";
 
 const sass = gulpSass(dartSass);
 const browserSync = browserSyncLib.create();
@@ -71,8 +72,19 @@ export function html() {
 // Minify JS
 export function scripts() {
   return src(paths.scripts.src)
-    .pipe(terser())
-    .pipe(dest(paths.scripts.dest))
+    .pipe(sourcemaps.init()) // Add sourcemaps for better debugging
+    .pipe(concat("scripts.js")) // Concatenate all JS files
+    .pipe(terser()) // Minify the JS
+    .pipe(rev()) // Add content hash to filenames
+    .pipe(sourcemaps.write(".")) // Write sourcemaps
+    .pipe(dest(paths.scripts.dest)) // Output to destination
+    .pipe(
+      rev.manifest({
+        base: "dist",
+        merge: true, // Merge with existing manifest if it exists
+      })
+    )
+    .pipe(dest("dist")) // Output the manifest file
     .pipe(browserSync.stream());
 }
 
@@ -81,7 +93,7 @@ export async function images() {
   const files = await imagemin(["src/images/**/*.{jpg,jpeg,png,svg}"], {
     destination: "dist/images",
     plugins: [
-      imageminMozjpeg({ quality: 50, progressive: true }),
+      imageminMozjpeg({ quality: 40, progressive: true }),
       // PNG optimization remains the same
       imageminOptipng({
         optimizationLevel: 7,
