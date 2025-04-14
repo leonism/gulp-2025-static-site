@@ -4,6 +4,7 @@
   text-align: center;
 }
 
+// About page styles
 .about-content {
   padding: 4rem 0;
   background-color: #f8f9fa;
@@ -30,6 +31,13 @@
     &:hover {
       transform: translateY(-5px);
       box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    // Add horizontal margin on mobile
+    @media (max-width: 768px) {
+      margin-left: 1rem;
+      margin-right: 1rem;
+      width: calc(100% - 2rem);
     }
   }
 
@@ -66,6 +74,7 @@
   text-align: center;
 }
 
+// Services page styles
 .services-list {
   padding: 4rem 0;
   background-color: #f0f4f8;
@@ -77,6 +86,12 @@
     gap: 2rem;
     justify-content: center; /* Center-align the grid */
     align-items: center; /* Center-align the grid items vertically */
+
+    // Add horizontal padding on mobile
+    @media (max-width: 768px) {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
   }
 
   .service-card {
