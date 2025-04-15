@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "start": "gulp",
-    "build": "gulp build"
+    "build": "gulp build",
+    "deploy": "npm run build && wrangler pages deploy dist --project-name=gulp-2025"
   },
   "devDependencies": {
     "browser-sync": "^3.0.4",

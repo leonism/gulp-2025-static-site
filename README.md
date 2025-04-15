@@ -1,8 +1,8 @@
 # ⚡ Gulp 2025: The Static Site Powerhouse ⚡
 
-**Date:** April 2025
-**Author:** [Gemika Haziq Nugroho](https://gemika.vercel.app)
-**Tech Stack:** Gulp 5, Quantum CSS, Neural Compression
+- **Date:** April 2025
+- **Author:** [Gemika Haziq Nugroho](https://gemika.vercel.app)
+- **Tech Stack:** Gulp 5, Quantum CSS, Neural Compression
 
 ![Gulp 2025 Banner](src/images/hero.jpg)
 
@@ -70,7 +70,7 @@ Welcome to the future of static site development! This project demonstrates how 
 
 ## 🛠️ Futuristic Features
 
-### 🌈 Quantum Design System
+### 📖 Quantum Design System
 
 - Particle-based logos with dynamic positioning
 - Glitch text effects with CSS holograms
@@ -101,4 +101,20 @@ npx gulp
 
 # Start the build process
 npx gulp build
+```
+
+---
+
+## 🧪 Deploy to Cloudflare Pages
+
+For production:
+
+```bash
+  wrangler pages deploy dist --project-name=gulp-2025
+```
+
+For preview (staging-like deployments):
+
+```bash
+  wrangler pages deploy dist --project-name=gulp-2025 --branch=preview
 ```
