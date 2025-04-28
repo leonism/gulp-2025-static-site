@@ -1,0 +1,40 @@
+// Hero background styles
+.about-hero {
+  background: url("../images/hero/about-hero.svg") no-repeat center center;
+  background-size: cover;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.services-hero {
+  background: url("../images/hero/services-hero.svg") no-repeat center center;
+  background-size: cover;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.contact-hero {
+  background: url("../images/hero/contact-hero.svg") no-repeat center center;
+  background-size: cover;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 6rem 0 4rem;
+
+  h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+  }
+
+  .lead {
+    font-size: 1.5rem;
+    opacity: 0.9;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+}

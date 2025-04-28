@@ -10,6 +10,7 @@
     "deploy": "npm run build && wrangler pages deploy dist --project-name=gulp-2025"
   },
   "devDependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.2",
     "browser-sync": "^3.0.4",
     "del": "^8.0.0",
     "gulp": "^5.0.0",
@@ -18,13 +19,16 @@
     "gulp-concat": "^2.6.1",
     "gulp-file-include": "^2.3.0",
     "gulp-htmlmin": "^5.0.1",
+    "gulp-imagemin": "^9.1.0",
     "gulp-newer": "^1.4.0",
     "gulp-rev": "^11.0.0",
     "gulp-sass": "^6.0.1",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-terser": "^2.1.0",
     "gulp-webp": "^5.0.0",
+    "imagemin": "^9.0.1",
     "imagemin-pngquant": "^10.0.0",
+    "imagemin-webp": "^8.0.0",
     "sass": "^1.86.3",
     "svgo": "^3.3.2"
   },
@@ -237,7 +241,6 @@
     "ieee754": "^1.2.1",
     "ignore": "^7.0.3",
     "image-dimensions": "^2.3.0",
-    "imagemin": "^9.0.1",
     "imagemin-gifsicle": "^5.2.0",
     "imagemin-mozjpeg": "^10.0.0",
     "imagemin-optipng": "^8.0.0",
