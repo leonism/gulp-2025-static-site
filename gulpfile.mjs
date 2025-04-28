@@ -37,7 +37,7 @@ const noop = () =>
 // Paths configuration
 const paths = {
   html: {
-    src: "src/*.html",
+    src: ["src/*.html", "!src/layout/**", "!src/components/**"],
     dest: "dist/",
   },
   styles: {
@@ -70,22 +70,24 @@ export function styles() {
   return src(paths.styles.src)
     .pipe(isProd ? noop() : sourcemaps.init())
     .pipe(sass().on("error", sass.logError))
-    .pipe(autoprefixer())
-    .pipe(cleanCSS())
+    .pipe(autoprefixer({ cascade: false }))
+    .pipe(cleanCSS({ level: 2 }))
     .pipe(isProd ? noop() : sourcemaps.write("."))
     .pipe(dest(paths.styles.dest))
     .pipe(browserSync.stream());
 }
 
-// Compile HTML files with includes
+// Compile HTML files with includes and minify
 export function html() {
   const __dirname = dirname(fileURLToPath(import.meta.url));
-  return src([paths.html.src, "!src/layout/**", "!src/components/**"])
+  return src(paths.html.src)
     .pipe(
       fileinclude({
         prefix: "@@",
         basepath: path.join(__dirname, "src"),
-        context: {},
+      }).on("error", function (error) {
+        console.error("File Include Error:", error.message);
+        this.emit("end");
       })
     )
     .pipe(htmlmin({ collapseWhitespace: true }))
@@ -133,6 +135,8 @@ export async function images() {
       }),
     ],
   });
+
+  console.log(`Images optimized: ${files.length}`);
   return files;
 }
 
@@ -165,9 +169,12 @@ async function logImageSizes() {
       try {
         const srcPath = path.join(srcDir, file);
         const distPath = path.join(distDir, file);
-        const [srcStat, distStat] = await Promise.all([
+        const webpPath = path.join(distDir, `${path.parse(file).name}.webp`);
+
+        const [srcStat, distStat, webpStat] = await Promise.all([
           fs.stat(srcPath),
           fs.stat(distPath).catch(() => null),
+          fs.stat(webpPath).catch(() => null),
         ]);
 
         if (distStat) {
@@ -178,6 +185,17 @@ async function logImageSizes() {
             `${file}: ${(srcSize / 1024).toFixed(2)}KB → ${(
               distSize / 1024
             ).toFixed(2)}KB (${savings}% saved)`
+          );
+        }
+
+        if (webpStat) {
+          const srcSize = srcStat.size;
+          const webpSize = webpStat.size;
+          const savings = (((srcSize - webpSize) / srcSize) * 100).toFixed(2);
+          console.log(
+            `${path.parse(file).name}.webp: ${(srcSize / 1024).toFixed(
+              2
+            )}KB → ${(webpSize / 1024).toFixed(2)}KB (${savings}% saved)`
           );
         }
       } catch (err) {
