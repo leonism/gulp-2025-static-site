@@ -1,5 +1,3 @@
-// gulpfile.mjs
-
 import { src, dest, watch, series, parallel } from "gulp";
 import gulpSass from "gulp-sass";
 import * as dartSass from "sass";
@@ -8,6 +6,7 @@ import autoprefixer from "gulp-autoprefixer";
 import cleanCSS from "gulp-clean-css";
 import terser from "gulp-terser";
 import htmlmin from "gulp-htmlmin";
+import fileinclude from "gulp-file-include";
 import newer from "gulp-newer";
 import browserSyncLib from "browser-sync";
 import { deleteAsync } from "del";
@@ -17,15 +16,28 @@ import imagemin from "imagemin";
 import imageminMozjpeg from "imagemin-mozjpeg";
 import imageminOptipng from "imagemin-optipng";
 import imageminSvgo from "imagemin-svgo";
-import imageminPngquant from "imagemin-pngquant"; // Add pngquant for better PNG compression
+import imageminPngquant from "imagemin-pngquant";
+import webp from "gulp-webp";
+import { Transform } from "stream";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
+// Initialize plugins
 const sass = gulpSass(dartSass);
 const browserSync = browserSyncLib.create();
 
-// Paths
+// Noop stream helper
+const noop = () =>
+  new Transform({
+    transform(chunk, encoding, callback) {
+      callback(null, chunk);
+    },
+  });
+
+// Paths configuration
 const paths = {
   html: {
-    src: "src/*.html",
+    src: ["src/*.html", "!src/layout/**", "!src/components/**"],
     dest: "dist/",
   },
   styles: {
@@ -40,6 +52,10 @@ const paths = {
     src: "src/images/**/*.{jpg,jpeg,png,svg}",
     dest: "dist/images/",
   },
+  webp: {
+    src: "src/images/**/*.{jpg,jpeg,png}",
+    dest: "dist/images/",
+  },
 };
 
 // Clean dist folder
@@ -49,19 +65,31 @@ export function clean() {
 
 // Compile and minify SCSS files
 export function styles() {
+  const isProd = process.env.NODE_ENV === "production";
+
   return src(paths.styles.src)
-    .pipe(sourcemaps.init())
+    .pipe(isProd ? noop() : sourcemaps.init())
     .pipe(sass().on("error", sass.logError))
     .pipe(autoprefixer({ cascade: false }))
     .pipe(cleanCSS({ level: 2 }))
-    .pipe(sourcemaps.write("."))
+    .pipe(isProd ? noop() : sourcemaps.write("."))
     .pipe(dest(paths.styles.dest))
     .pipe(browserSync.stream());
 }
 
-// Minify HTML files
+// Compile HTML files with includes and minify
 export function html() {
+  const __dirname = dirname(fileURLToPath(import.meta.url));
   return src(paths.html.src)
+    .pipe(
+      fileinclude({
+        prefix: "@@",
+        basepath: path.join(__dirname, "src"),
+      }).on("error", function (error) {
+        console.error("File Include Error:", error.message);
+        this.emit("end");
+      })
+    )
     .pipe(htmlmin({ collapseWhitespace: true }))
     .pipe(dest(paths.html.dest))
     .pipe(browserSync.stream());
@@ -75,13 +103,12 @@ export function scripts() {
     .pipe(browserSync.stream());
 }
 
-// Optimize images with native imagemin
+// Optimize images
 export async function images() {
-  const files = await imagemin(["src/images/**/*.{jpg,jpeg,png,svg}"], {
-    destination: "dist/images",
+  const files = await imagemin([paths.images.src], {
+    destination: paths.images.dest,
     plugins: [
       imageminMozjpeg({ quality: 40, progressive: true }),
-      // PNG optimization remains the same
       imageminOptipng({
         optimizationLevel: 7,
         bitDepthReduction: true,
@@ -94,7 +121,6 @@ export async function images() {
         strip: true,
         dithering: 0.5,
       }),
-      // Enhanced SVG optimization
       imageminSvgo({
         plugins: [
           {
@@ -110,10 +136,75 @@ export async function images() {
     ],
   });
 
-  // Log more detailed information
   console.log(`Images optimized: ${files.length}`);
-
   return files;
+}
+
+// Convert images to WebP
+export function webpImages() {
+  return src(paths.webp.src)
+    .pipe(newer(paths.webp.dest))
+    .pipe(webp({ quality: 75 }))
+    .pipe(dest(paths.webp.dest))
+    .pipe(browserSync.stream());
+}
+
+// Image optimization report
+async function logImageSizes() {
+  const srcDir = "src/images";
+  const distDir = "dist/images";
+
+  try {
+    const files = await fs.readdir(srcDir);
+    const imageFiles = files.filter((file) =>
+      [".png", ".jpg", ".jpeg", ".svg"].includes(
+        path.extname(file).toLowerCase()
+      )
+    );
+
+    console.log("Image Optimization Report:");
+    console.log("-------------------------");
+
+    for (const file of imageFiles) {
+      try {
+        const srcPath = path.join(srcDir, file);
+        const distPath = path.join(distDir, file);
+        const webpPath = path.join(distDir, `${path.parse(file).name}.webp`);
+
+        const [srcStat, distStat, webpStat] = await Promise.all([
+          fs.stat(srcPath),
+          fs.stat(distPath).catch(() => null),
+          fs.stat(webpPath).catch(() => null),
+        ]);
+
+        if (distStat) {
+          const srcSize = srcStat.size;
+          const distSize = distStat.size;
+          const savings = (((srcSize - distSize) / srcSize) * 100).toFixed(2);
+          console.log(
+            `${file}: ${(srcSize / 1024).toFixed(2)}KB → ${(
+              distSize / 1024
+            ).toFixed(2)}KB (${savings}% saved)`
+          );
+        }
+
+        if (webpStat) {
+          const srcSize = srcStat.size;
+          const webpSize = webpStat.size;
+          const savings = (((srcSize - webpSize) / srcSize) * 100).toFixed(2);
+          console.log(
+            `${path.parse(file).name}.webp: ${(srcSize / 1024).toFixed(
+              2
+            )}KB → ${(webpSize / 1024).toFixed(2)}KB (${savings}% saved)`
+          );
+        }
+      } catch (err) {
+        console.log(`Error processing ${file}: ${err.message}`);
+      }
+    }
+  } catch (err) {
+    console.log(`Error reading directory: ${err.message}`);
+  }
 }
 
 // Dev Server
@@ -122,83 +213,21 @@ export function serve() {
     server: {
       baseDir: "dist/",
     },
+    notify: false,
+    open: false,
   });
 
-  watch(paths.html.src, html);
-  watch(paths.styles.src, styles);
-  watch(paths.scripts.src, scripts);
-  // Fix the watch path to match the src path
-  watch(paths.images.src, images);
+  watch(paths.html.src, series(html));
+  watch(paths.styles.src, series(styles));
+  watch(paths.scripts.src, series(scripts));
+  watch(paths.images.src, series(images));
+  watch(paths.webp.src, series(webpImages));
 }
 
 // Build task
-// Add this function to your gulpfile
-async function logImageSizes() {
-  const { promises: fs } = await import("fs");
-  const path = await import("path");
-
-  const srcDir = "src/images";
-  const distDir = "dist/images";
-
-  const files = await fs.readdir(srcDir);
-  const pngFiles = files.filter((file) => file.endsWith(".png"));
-  const svgFiles = files.filter((file) => file.endsWith(".svg"));
-
-  console.log("PNG Optimization Report:");
-  console.log("------------------------");
-
-  for (const file of pngFiles) {
-    const srcPath = path.join(srcDir, file);
-    const distPath = path.join(distDir, file);
-
-    try {
-      const srcStat = await fs.stat(srcPath);
-      const distStat = await fs.stat(distPath);
-
-      const srcSize = srcStat.size;
-      const distSize = distStat.size;
-      const savings = (((srcSize - distSize) / srcSize) * 100).toFixed(2);
-
-      console.log(
-        `${file}: ${(srcSize / 1024).toFixed(2)}KB → ${(
-          distSize / 1024
-        ).toFixed(2)}KB (${savings}% saved)`
-      );
-    } catch (err) {
-      console.log(`Error processing ${file}: ${err.message}`);
-    }
-  }
-
-  console.log("\nSVG Optimization Report:");
-  console.log("------------------------");
-
-  for (const file of svgFiles) {
-    const srcPath = path.join(srcDir, file);
-    const distPath = path.join(distDir, file);
-
-    try {
-      const srcStat = await fs.stat(srcPath);
-      const distStat = await fs.stat(distPath);
-
-      const srcSize = srcStat.size;
-      const distSize = distStat.size;
-      const savings = (((srcSize - distSize) / srcSize) * 100).toFixed(2);
-
-      console.log(
-        `${file}: ${(srcSize / 1024).toFixed(2)}KB → ${(
-          distSize / 1024
-        ).toFixed(2)}KB (${savings}% saved)`
-      );
-    } catch (err) {
-      console.log(`Error processing ${file}: ${err.message}`);
-    }
-  }
-}
-
-// Add this to your build task
 export const build = series(
   clean,
-  parallel(html, styles, scripts, images),
+  parallel(html, styles, scripts, images, webpImages),
   logImageSizes
 );
 

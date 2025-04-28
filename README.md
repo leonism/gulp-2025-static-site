@@ -97,10 +97,13 @@ Welcome to the future of static site development! This project demonstrates how 
 git clone https://github.com/leonism/gulp-2025.git
 
 # Start the dev server
-npx gulp
+npx start
 
 # Start the build process
-npx gulp build
+npx build
+
+# Start the deployment process
+npx deploy
 ```
 
 ---
