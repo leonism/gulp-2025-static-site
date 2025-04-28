@@ -2,55 +2,33 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="About Gulp Enterprise - Leading static site solutions" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="About Gulp Enterprise - Leading static site solutions" />
     <title>About Gulp Enterprise</title>
-    <link
-      rel="stylesheet"
-      href="css/main.css" />
-    <link
-      rel="icon"
-      href="images/check.svg" />
-    <link
-      rel="preconnect"
-      href="https://fonts.googleapis.com" />
-    <link
-      rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="icon" href="images/check.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
       rel="stylesheet" />
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   </head>
   <body>
+
     <header class="site-header">
       <div class="container">
-        <a
-          href="index.html"
-          class="logo-link">
-          <img
-            src="images/logo.png"
-            alt="Gulp Enterprise Logo"
-            class="logo"
-            width="180"
-            height="40" />
+        <a href="index.html" class="logo-link">
+          <img src="images/logo.png" alt="Gulp Enterprise Logo" class="logo" width="180" height="40" />
         </a>
         <nav class="main-nav">
           <ul class="nav-list">
-            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
             <li>
-              <a
-                href="about.html"
-                class="active"
-                >About</a
-              >
+              <a href="about.html" class="active"><i class="fas fa-info-circle"></i> About</a>
             </li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="services.html"><i class="fas fa-cogs"></i> Services</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
           </ul>
         </nav>
         <button class="nav-toggle" aria-label="Toggle navigation">
@@ -61,17 +39,20 @@
 
     <main>
       <section class="hero about-hero">
-        <h1>Our Corporate Story</h1>
+        <h1><i class="fas fa-building"></i> Our Corporate Story</h1>
         <p class="lead">
-          Building the future of static site development since 2025
+          <i class="fas fa-calendar-check"></i> Building the future of static site development since 2025
         </p>
       </section>
 
       <section class="about-content">
         <article class="about-section leadership">
-          <h2>Leadership Team</h2>
+          <h2><i class="fas fa-users"></i> Leadership Team</h2>
           <div class="team-grid">
             <div class="team-member">
+              <div class="team-icon">
+                <i class="fas fa-user-tie"></i>
+              </div>
               <h3>Jane Smith</h3>
               <p class="team-title">Chief Executive Officer</p>
               <p>
@@ -80,6 +61,9 @@
               </p>
             </div>
             <div class="team-member">
+              <div class="team-icon">
+                <i class="fas fa-laptop-code"></i>
+              </div>
               <h3>John Doe</h3>
               <p class="team-title">Chief Technology Officer</p>
               <p>
@@ -91,7 +75,7 @@
         </article>
 
         <article class="about-section">
-          <h2>Company History</h2>
+          <h2><i class="fas fa-history"></i> Company History</h2>
           <p>
             Founded in 2025, Gulp Enterprise specializes in creating
             high-performance static site solutions for businesses of all sizes.
@@ -103,58 +87,52 @@
         </article>
 
         <article class="about-section">
-          <h2>Our Approach</h2>
+          <h2><i class="fas fa-lightbulb"></i> Our Approach</h2>
           <p>
             At Gulp Enterprise, we believe in the power of simplicity. Our
             approach combines cutting-edge technology with streamlined processes
             to deliver exceptional results.
           </p>
           <ul class="about-features">
-            <li>Performance-first methodology</li>
-            <li>Security-focused development</li>
-            <li>Scalable architecture design</li>
-            <li>Enterprise-grade support</li>
+            <li><i class="fas fa-tachometer-alt"></i> Performance-first methodology</li>
+            <li><i class="fas fa-shield-alt"></i> Security-focused development</li>
+            <li><i class="fas fa-expand"></i> Scalable architecture design</li>
+            <li><i class="fas fa-headset"></i> Enterprise-grade support</li>
           </ul>
         </article>
       </section>
 
       <section class="cta-section">
-        <h2>Join our growing team</h2>
-        <p>We're always looking for talented individuals to join our mission</p>
-        <a
-          href="contact.html"
-          class="btn btn-primary"
-          >View Careers</a
-        >
+        <h2><i class="fas fa-user-plus"></i> Join our growing team</h2>
+        <p><i class="fas fa-search"></i> We're always looking for talented individuals to join our mission</p>
+        <a href="contact.html" class="btn btn-primary"><i class="fas fa-briefcase"></i> View Careers</a>
       </section>
     </main>
 
     <footer class="site-footer">
       <div class="footer-content">
         <div class="footer-logo">
-          <img
-            src="images/logo.png"
-            alt="Gulp Enterprise"
-            class="logo footer-logo"
-            width="120"
-            height="40" />
+          <img src="images/logo.png" alt="Gulp Enterprise" class="logo footer-logo" width="120" height="40" />
         </div>
         <div class="footer-links">
           <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="services.html">Services</a></li>
-            <li><a href="contact.html">Contact</a></li>
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="services.html"><i class="fas fa-cogs"></i> Services</a></li>
+            <li><a href="contact.html"><i class="fas fa-envelope"></i> Contact</a></li>
           </ul>
         </div>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+          <a href="#"><i class="fab fa-github"></i></a>
+        </div>
         <div class="footer-copyright">
-          <p>&copy; 2025 Gulp Enterprise. All rights reserved.</p>
+          <p><i class="far fa-copyright"></i> 2025 Gulp Enterprise. All rights reserved.</p>
         </div>
       </div>
     </footer>
 
-    <script
-      src="js/app.js"
-      type="module"></script>
+    <script src="js/app.js" type="module"></script>
   </body>
 </html>

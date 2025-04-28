@@ -58,6 +58,39 @@ body {
     }
   }
 
+  /* Icon styling */
+  .team-icon {
+    font-size: 2rem;
+    color: #3a86ff;
+    margin-bottom: 1rem;
+  }
+
+  .about-features li i {
+    margin-right: 0.5rem;
+    color: #3a86ff;
+  }
+
+  .btn i,
+  .nav-list a i,
+  .footer-links a i {
+    margin-right: 0.5rem;
+  }
+
+  .footer-social a {
+    font-size: 1.5rem;
+    margin: 0 0.5rem;
+    color: #555;
+  }
+
+  .footer-social a:hover {
+    color: #3a86ff;
+  }
+
+  .hero h1 i,
+  .about-section h2 i {
+    margin-right: 0.5rem;
+  }
+
   &.btn-secondary {
     background-color: #e2e8f0;
     color: #2d3748;
