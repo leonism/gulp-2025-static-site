@@ -13,6 +13,8 @@ dist
 
 # production
 /build
+dist/
+dist
 
 # debug
 npm-debug.log*
