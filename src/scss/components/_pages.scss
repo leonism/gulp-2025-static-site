@@ -1,21 +1,7 @@
 // About page styles
 .about-hero {
-  background-image: url("https://via.placeholder.com/1200x400/007bff/ffffff?text=About+Hero+Background"); // Placeholder image
-  background-size: cover;
-  background-position: center;
-  color: #fff; // Adjust text color for better contrast if needed
+  background-color: #ebf8ff;
   text-align: center;
-  padding: 6rem 0; // Add padding for better spacing
-
-  h1 {
-    color: #fff; // Ensure heading is visible
-    text-shadow: 1px 1px 1px rgba(99, 98, 98, 0.5); // Add shadow for readability
-  }
-
-  .lead {
-    color: #f8f9fa; // Lighter text color
-    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-  }
 }
 
 // About page styles
@@ -84,22 +70,8 @@
 
 // Services page styles
 .services-hero {
-  background-image: url("https://via.placeholder.com/1200x400/28a745/ffffff?text=Services+Hero+Background"); // Placeholder image
-  background-size: cover;
-  background-position: center;
-  color: #fff; // Adjust text color for better contrast if needed
+  background-color: #f0fff4;
   text-align: center;
-  padding: 6rem 0; // Add padding for better spacing
-
-  h1 {
-    color: #fff; // Ensure heading is visible
-    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5); // Add shadow for readability
-  }
-
-  .lead {
-    color: #f8f9fa; // Lighter text color
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-  }
 }
 
 // Services page styles
@@ -165,32 +137,11 @@
       }
     }
   }
-
-  // Add some spacing for icons
-  h3 i,
-  strong i {
-    margin-right: 0.5em;
-  }
 }
 
 // Contact page styles
 .contact-hero {
-  background-image: url("https://via.placeholder.com/1200x400/ffc107/333333?text=Contact+Hero+Background"); // Placeholder image
-  background-size: cover;
-  background-position: center;
-  color: #333; // Adjust text color for better contrast if needed
-  text-align: center;
-  padding: 6rem 0; // Add padding for better spacing
-
-  h1 {
-    color: #333; // Ensure heading is visible
-    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5); // Add light shadow for readability
-  }
-
-  .lead {
-    color: #555; // Darker text color
-    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
-  }
+  background-color: #ebf4ff;
 }
 
 .contact-form-section {
