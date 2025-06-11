@@ -1,7 +1,9 @@
-.container {
-  width: 90%;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 1rem;
-}
+// Grid helper classes can be defined here if a specific columnar grid system is needed.
+// For example:
+// .row { display: flex; flex-wrap: wrap; margin-left: -0.5rem; margin-right: -0.5rem; }
+// .col { flex-basis: 0; flex-grow: 1; max-width: 100%; padding-left: 0.5rem; padding-right: 0.5rem; }
+// .col-6 { flex: 0 0 50%; max-width: 50%; }
+// etc.
+
+// The main .container styling (max-width, padding, margin) is now centralized in main.scss.
+// Removing the conflicting .container definition from this file.

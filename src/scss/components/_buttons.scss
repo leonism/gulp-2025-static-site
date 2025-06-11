@@ -1,7 +1,50 @@
-.button {
-  background: #007bff;
-  color: #fff;
-  padding: 0.75rem 1.25rem;
-  border: none;
-  border-radius: 5px;
+@use "../utilities/variables" as *;
+
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem; // Adjusted padding from main.scss
+  border-radius: 8px; // Increased border-radius
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  border: none; // Ensuring no default border
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Added subtle shadow
+  transition: all 0.2s ease-in-out; // Simplified transition
+
+  &:hover {
+    transform: translateY(-2px); // Lift button on hover
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); // Increase shadow intensity
+  }
+
+  &:active {
+    transform: translateY(0px); // Button press effect
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); // Reset shadow on active
+  }
+
+  // Icon styling (moved from main.scss)
+  i {
+    margin-right: 0.5rem;
+  }
+}
+
+.btn-primary {
+  @extend .btn; // Inherit base .btn styles
+  background: linear-gradient(145deg, lighten($primary-color, 5%), darken($primary-color, 5%)); // Gradient background
+  color: $text-color-light;
+
+  &:hover {
+    background: linear-gradient(145deg, $primary-color, darken($primary-color, 10%));
+    // transform and box-shadow are inherited from .btn:hover
+  }
+}
+
+.btn-secondary {
+  @extend .btn; // Inherit base .btn styles
+  background-color: $secondary-color;
+  color: $text-color-light; // Assuming light text on secondary color, adjust if needed
+
+  &:hover {
+    background-color: darken($secondary-color, 10%);
+    // transform and box-shadow are inherited from .btn:hover
+  }
 }

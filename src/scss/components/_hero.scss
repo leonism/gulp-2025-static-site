@@ -1,12 +1,95 @@
+@use "../utilities/variables" as *;
+
 .hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  img {
+  padding: 6rem 0 4rem;
+  text-align: center;
+
+  .hero-image {
     max-width: 100%;
+    height: auto; // Maintain aspect ratio
+    margin-top: 3rem; // Add some space above the image
   }
-  h1 {
-    font-size: 2rem;
-    margin-top: 1rem;
+
+  // Styles for the content block within the hero, e.g., on the homepage
+  .hero-home {
+    // padding: 6rem 0 4rem; // This padding was in main.scss, but general .hero padding seems better
+    // text-align: center; // Inherited from .hero
+
+    h1 {
+      font-size: $h1-font-size;
+      margin-bottom: 1rem;
+      color: #1A1A1A; // Specific dark color from previous step
+      font-family: $heading-font-family;
+      line-height: $heading-line-height;
+    }
+
+    .lead-home {
+      font-size: 1.35rem;
+      color: #495057; // Specific lighter dark color from previous step
+      max-width: 700px;
+      margin: 0 auto 2rem;
+    }
+
+    .cta-group {
+      margin-top: 2rem; // Space above the buttons
+      display: flex;
+      flex-wrap: wrap; // Allow wrapping on smaller screens
+      justify-content: center;
+      gap: 1rem; // Space between buttons
+
+      .btn {
+        margin-bottom: 0.5rem; // Add some margin for wrapped buttons
+      }
+    }
+  }
+
+  // Responsive adjustments
+  @media (max-width: $breakpoint-md) {
+    padding: 4rem 0 2rem; // Adjust padding for mobile
+
+    .hero-home {
+      h1 {
+        font-size: 2rem; // Adjust h1 font size for mobile
+      }
+
+      .lead-home {
+        font-size: 1.1rem; // Adjust lead font size for mobile
+        margin-bottom: 1.5rem;
+      }
+
+      .cta-group {
+        flex-direction: column; // Stack buttons vertically
+        align-items: center; // Center stacked buttons
+
+        .btn {
+          width: 100%; // Make buttons full width
+          max-width: 320px; // Optional: max-width for very wide buttons
+          margin-bottom: 1rem; // Ensure spacing between stacked buttons
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+
+    .hero-image {
+      margin-top: 2rem; // Reduce space above image on mobile
+    }
+  }
+}
+
+// Fallback for .lead if .lead-home is not present but .hero h1 is followed by a p
+// This is based on the .lead style previously in main.scss
+.hero > .container > p.lead, // If lead is direct child of container
+.hero .lead // More generic .lead within .hero
+{
+  font-size: 1.25rem;
+  color: #d3d3d3; // This color might need adjustment based on hero background
+  max-width: 700px;
+  margin: 0 auto 2rem;
+
+  @media (max-width: $breakpoint-md) {
+    font-size: 1rem;
   }
 }

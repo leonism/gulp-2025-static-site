@@ -1,6 +1,44 @@
+@use "../utilities/variables" as *;
+
+// General form styling - can be extended by specific forms like .contact-form
+.form-group {
+  margin-bottom: 1.5rem; // As per subtask
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem; // As per subtask
+  font-weight: 600; // As per subtask
+  color: $text-color; // Using variable
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+  width: 100%; // Responsive behavior
+  padding: 0.75rem 1rem; // Consistent padding
+  border: 1px solid #ced4da; // Subtle border - consider a variable like $border-color-light
+  border-radius: 8px; // Increased border-radius (0.5rem)
+  background-color: $text-color-light; // Light background for inputs
+  color: $text-color; // Text color for inputs
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+  &:focus {
+    border-color: $primary-color; // Change border color on focus
+    box-shadow: 0 0 0 0.2rem rgba($primary-color, 0.25); // Subtle box-shadow on focus
+    outline: none; // Remove default outline
+  }
+}
+
+textarea {
+  min-height: 120px; // Give textarea some default height
+  resize: vertical; // Allow vertical resize
+}
+
+// Specific styling for .contact-form, inherits general styles above
 .contact-form {
-  max-width: 500px;
-  margin: 0 auto;
+  max-width: 600px; // Slightly increased max-width for better layout
+  margin: 2rem auto; // Added top/bottom margin
 
   // Add horizontal margin on mobile
   @media (max-width: 768px) {
@@ -9,20 +47,16 @@
     max-width: calc(100% - 2rem);
   }
 
-  .form-group {
-    margin-bottom: 1.5rem;
-  }
+  // .form-group, label, input styles are now more generic and will apply here.
+  // Specific overrides for .contact-form inputs can be added if needed.
+  // For example, if contact form inputs need slightly different padding:
+  // input[type="text"],
+  // input[type="email"],
+  // textarea {
+  //   padding: 0.85rem 1.1rem;
+  // }
 
-  label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-weight: 500;
-  }
-
-  input {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
-  }
+  // Submit button within .contact-form should use .btn .btn-primary
+  // e.g. <button type="submit" class="btn btn-primary">Send</button>
+  // No specific SCSS needed here if HTML uses the correct classes.
 }

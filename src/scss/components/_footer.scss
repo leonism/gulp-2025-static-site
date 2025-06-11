@@ -1,9 +1,14 @@
+@use "../utilities/variables" as *;
+
 .site-footer {
-  background-color: #2d3748;
-  color: white;
+  background-color: $secondary-color; // Use secondary color for footer background
+  color: $text-color-light; // Use light text color for footer text
   padding: 3rem 0;
   text-align: center;
-  justify-content: center;
+  // justify-content and align-items on .site-footer (a block element) might not be doing much here.
+  // .footer-content handles its own alignment.
+  // justify-content: center; // Likely not needed
+  // align-items: center; // Likely not needed
   align-items: center;
 
   .footer-content {
@@ -11,8 +16,16 @@
     flex-direction: column;
     align-items: center;
     gap: 1.5rem;
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 800px; // This provides a max width for the content itself
+    margin: 0 auto; // Centers .footer-content if viewport is wider than max-width
+    padding: 0 1rem; // Ensures padding even if viewport is narrower than max-width (for consistency with .container)
+  }
+
+  // Responsive adjustments for overall footer padding if needed, though .footer-content padding might be enough.
+  @media (max-width: $breakpoint-sm) { // Example: for very small screens
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    // .footer-content padding: 0 1rem already handles horizontal.
   }
 
   .footer-nav ul {
@@ -44,12 +57,12 @@
 
       a {
         text-decoration: none;
-        color: #e2e8f0;
-        transition: color 0.2s ease;
+        color: $text-color-light; // Use light text for links
+        transition: color 0.2s ease-in-out; // Updated timing function
         font-weight: 500;
 
         &:hover {
-          color: #ffffff;
+          color: $primary-color; // Use primary color for link hover
           text-decoration: underline;
         }
       }
@@ -57,7 +70,7 @@
   }
 
   .footer-copyright {
-    color: #a0aec0;
+    color: darken($text-color-light, 20%); // Example: darken light text for subtlety
     font-size: 0.9rem;
     margin-top: 1rem;
     width: 100%;

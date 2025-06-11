@@ -1,0 +1,26 @@
+@use "../utilities/variables" as *; // Good practice, though not strictly needed for this animation
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeInUp {
+  animation-name: fadeInUp;
+  animation-duration: 0.8s; // Duration of the animation
+  animation-fill-mode: both; // Ensures the element stays in the 'to' state after animation
+  animation-timing-function: ease-out; // Controls the acceleration curve
+  // animation-delay: 0s; // Can be used to delay the animation
+  // animation-iteration-count: 1; // How many times the animation should play
+  // animation-play-state: running; // Can be paused with 'paused'
+
+  // Note: For true scroll-triggered animations, this class would typically be
+  // added via JavaScript when the element enters the viewport.
+  // Without JS, the animation will play on page load for elements having this class.
+}
